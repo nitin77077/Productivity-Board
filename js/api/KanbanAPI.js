@@ -29,7 +29,7 @@ export default class KanbanAPI {
 
     static updateItem(itemId, newProps) {
         const data = read()
-        console.log(data)
+        //console.log(data)
         const [item, currentColumn] = (() => {
             for(const column of data) {
                 const item = column.items.find(item => item.id == itemId)

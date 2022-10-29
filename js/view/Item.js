@@ -1,7 +1,9 @@
-import KanbanAPI from "../api/KanbanAPI.js";
+import KanbanAPI from "../api/KanbanAPI.js"
+import DropZone from "./DropZone.js"
 
 export default class Item{
     constructor(id, content) {
+		const bottomDropZone = DropZone.createDropZone()
         this.elements = {};
 		this.elements.root = Item.createRoot();
         //console.log(Item.createRoot())
@@ -10,6 +12,7 @@ export default class Item{
 		this.elements.root.dataset.id = id;
 		this.elements.input.textContent = content;
 		this.content = content;
+		this.elements.root.appendChild(bottomDropZone)
 
         const onBlur = () => {
 			const newContent = this.elements.input.textContent.trim()
@@ -36,6 +39,13 @@ export default class Item{
 				this.elements.input.removeEventListener("blur", onBlur)
 				this.elements.root.parentElement.removeChild(this.elements.root)
 			}
+		})
+		this.elements.root.addEventListener("dragstart", e => {
+			e.dataTransfer.setData("text/plain", id)
+		})
+
+		this.elements.input.addEventListener('drop', e => {
+			e.preventDefault()
 		})
     }
 
